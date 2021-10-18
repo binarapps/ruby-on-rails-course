@@ -1,7 +1,7 @@
 Join us if you have Knowledge in:
-- Ruby on Rails 6
+- Ruby on Rails 6 - you will learn it soon!
 - HTML/CSS
-- Git
+- Git - Do you know it?
 - databases (eg. PostgreSQL)
 - SOLID principles
 - English
