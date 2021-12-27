@@ -1,4 +1,7 @@
  <%= form_with model: @user do |form| %>
-   <%= form.text_field :name %>
-   <%= form.submit %>
+  <div class='mb-3 col-md-2'>
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+   <%= form.submit 'Create User', class: 'btn btn-success' %>
  <% end %>
