@@ -1,0 +1,6 @@
+<%= form_with model: @comment do |form| %>
+  Content: <%= form.text_field :content %>
+  Post: <%= form.collection_select :post_id, Post.all.order(:title), :id, :title %>
+  User: <%= form.collection_select :user_id, User.all.order(:name), :id, :name %>
+  <%= form.submit %>
+<% end %>

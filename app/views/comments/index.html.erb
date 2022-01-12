@@ -1,2 +1,19 @@
-<h1>Comments#index</h1>
-<p>Find me in app/views/comments/index.html.erb</p>
+<%= link_to 'Add New Comment', new_comment_path %>
+
+<h1>Comments</h1>
+<table>
+  <tr>
+    <th>Comment ID</th>
+    <th>Comment Content</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  <% @comments.each do |comment| %>
+    <tr>
+      <td><%= comment.id %></td>
+      <td><%= link_to comment.content, comment_path(comment) %></td>
+      <td><%= link_to 'Edit Comment', edit_comment_path(comment) %></td>
+      <td><%= link_to 'Delete Comment', comment_path(comment), method: :delete %></td>
+    </tr>
+  <% end %>
+</table>
