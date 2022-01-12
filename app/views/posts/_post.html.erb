@@ -1,0 +1,6 @@
+<%= form_with model: @post do |form| %>
+  Title: <%= form.text_field :title %>
+  Body: <%= form.text_field :body %>
+  User: <%= form.collection_select :user_id, User.all.order(:name), :id, :name %>
+  <%= form.submit %>
+<% end %>

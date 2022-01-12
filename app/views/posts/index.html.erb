@@ -1,1 +1,19 @@
-<%= @message %>
+<%= link_to 'Add New Post', new_post_path %>
+
+<h1>Posts</h1>
+<table>
+  <tr>
+    <th>Post ID</th>
+    <th>Post Title</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  <% @posts.each do |post| %>
+    <tr>
+      <td><%= post.id %></td>
+      <td><%= link_to post.title, post_path(post) %></td>
+      <td><%= link_to 'Edit Post', edit_post_path(post) %></td>
+      <td><%= link_to 'Delete Post', post_path(post), method: :delete %></td>
+    </tr>
+  <% end %>
+</table>
