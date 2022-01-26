@@ -1,6 +1,15 @@
 <%= form_with model: @post do |form| %>
-  Title: <%= form.text_field :title %>
-  Body: <%= form.text_field :body %>
-  User: <%= form.collection_select :user_id, User.all.order(:name), :id, :name %>
-  <%= form.submit %>
+  <div class='mb-3 col-md-2'>
+    <%= form.label :title %>
+    <%= form.text_field :title, class: 'form-control' %>
+  </div>
+  <div class='mb-3 col-md-2'>
+    <%= form.label :body %>
+    <%= form.text_field :body, class: 'form-control' %>
+  </div>
+  <div class='mb-3 col-md-2'>
+    <%= form.label :user_id %>
+    <%= form.collection_select :user_id, User.all.order(:name), :id, :name, {}, class: 'form-select' %>
+  </div>
+  <%= form.submit 'Save', class: 'btn btn-success' %>
 <% end %>
