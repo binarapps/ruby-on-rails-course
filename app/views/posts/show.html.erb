@@ -1,2 +1,3 @@
-Title: <%= @post.title %>
-Body: <%= @post.body %>
+<% presenter = PostPresenter.new(@post) %>
+Title: <%= presenter.parsed_title %>
+Body: <%= presenter.body %>
