@@ -30,11 +30,12 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @comments = Comments::Sort.new(Comments::Post.new(@post.id).call).call
   end
 
   def destroy
     @post = Post.find(params[:id])
-    if @post.destroy
+    if Posts::Destroy.new(@post).call
       flash[:notice] = 'Post has been destroyed'
       redirect_to posts_path
     else
