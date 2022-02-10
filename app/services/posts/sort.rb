@@ -1,6 +1,6 @@
-class Comments::Sort
-  def initialize(comments)
-    @comments = comments
+class Posts::Sort
+  def initialize(posts)
+    @posts = posts
   end
 
   def call
@@ -10,6 +10,6 @@ class Comments::Sort
   private
 
   def sort
-    @comments.order(:updated_at)
+    @posts.order(:updated_at)
   end
 end
