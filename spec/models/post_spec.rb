@@ -6,6 +6,10 @@ describe Post, type: :model do
     it 'belongs to user' do
       expect(Post.reflect_on_association(:user).macro).to match(:belongs_to)
     end
+
+    it 'has many comments' do
+      expect(Post.reflect_on_association(:comments).macro).to match(:has_many)
+    end
   end
 
   context 'validations' do
