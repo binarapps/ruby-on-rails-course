@@ -4,6 +4,10 @@
     <%= form.text_field :title, class: 'form-control' %>
   </div>
   <div class='mb-3 col-md-2'>
+    <%= form.label :image %>
+    <%= form.file_field :image, accept: 'image/png, image/jpg, image/jpeg', class: 'form-control' %>
+  </div>
+  <div class='mb-3 col-md-2'>
     <%= form.label :body %>
     <%= form.text_field :body, class: 'form-control' %>
   </div>

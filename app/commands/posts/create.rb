@@ -11,6 +11,6 @@ class Posts::Create
 
   def create_post_with_comment
     post = Post.create!(@params)
-    Comment.create(post_id: post.id, user_id: post.user_id, content: 'Generyczny komentarz')
+    WellcomeCommentCreationJob.perform_later(post.id)
   end
 end
