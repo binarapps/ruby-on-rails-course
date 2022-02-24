@@ -1,6 +1,6 @@
 class PostsController < ApplicationController
   def index
-    @posts = Posts::Sort.new(Posts::Recent.call).call
+    @posts = Posts::Sort.new(Posts::Recent.call).call.page(params[:page])
   end
 
   def new
@@ -47,6 +47,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:title, :body, :user_id)
+    params.require(:post).permit(:title, :body, :user_id, :image)
   end
 end
