@@ -1,0 +1,16 @@
+<div class='navbar bg-light'>
+  <div class="container">
+    <span class='navbar-text'>
+      <% if current_user %>
+        <% if current_user.avatar.persisted? %>
+          <%= image_tag current_user.avatar, height: '20px' %>
+        <% end %>
+        <%= "Logged as #{current_user.name}" %>
+        <%= link_to 'Sign out', destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%= link_to 'Sign in', new_user_session_path %>
+        <%= link_to 'Register', new_user_registration_path %>
+      <% end %>
+    </span>
+  </div>
+</div>

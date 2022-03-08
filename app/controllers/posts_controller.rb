@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user!, only: :create
+
   def index
     @posts = Posts::Sort.new(Posts::Recent.call).call.page(params[:page])
   end
@@ -12,7 +14,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    Posts::Create.new(post_params).call
+    Posts::Create.new(post_params.merge(user: current_user)).call
     redirect_to posts_path
   rescue ActiveRecord::RecordInvalid => invalid
     @post = invalid.record

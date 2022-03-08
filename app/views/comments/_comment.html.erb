@@ -7,9 +7,5 @@
     <%= form.label :post_id %>
     <%= form.collection_select :post_id, Post.all.order(:title), :id, :title, {}, class: 'form-select' %>
   </div>
-  <div class='mb-3 col-md-2'>
-    <%= form.label :user_id %>
-    <%= form.collection_select :user_id, User.all.order(:name), :id, :name, {}, class: 'form-select' %>
-  </div>
   <%= form.submit 'Save', class: 'btn btn-success' %>
 <% end %>
