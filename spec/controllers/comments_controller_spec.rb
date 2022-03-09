@@ -4,6 +4,7 @@ RSpec.describe CommentsController, type: :controller do
   describe 'GET #index' do
     let!(:comment_1) { create(:comment) }
     let!(:comment_2) { create(:comment) }
+    let(:user) { create(:user) }
     subject { get :index }
 
     it 'shows all comments' do
@@ -17,27 +18,41 @@ RSpec.describe CommentsController, type: :controller do
     let(:post_obj) { create(:post) }
     subject { post :create, params: params }
 
-    context 'valid params' do
-      let(:params) { { comment: { content: 'Content', post_id: post_obj.id, user_id: user.id } } }
+    context 'when user is not authorized' do
+      context 'valid params' do
+        let(:params) { { comment: { content: 'Content', post_id: post_obj.id, user_id: user.id } } }
 
-      it 'creates comment' do
-        expect{ subject }.to change{ Comment.count }.by(1)
-      end
-
-      it 'redirects properly' do
-        expect(subject).to redirect_to(comments_path)
+        it 'creates comment' do
+          expect{ subject }.to change{ Comment.count }.by(0)
+        end
       end
     end
 
-    context 'invalid params' do
-      let(:params) { { comment: { content: nil, post_id: post_obj.id, user_id: user.id } } }
+    context 'when user is authorized' do
+      before { sign_in user }
 
-      it 'doesnt create comment' do
-        expect{ subject }.not_to change{ Comment.count }
+      context 'valid params' do
+        let(:params) { { comment: { content: 'Content', post_id: post_obj.id, user_id: user.id } } }
+
+        it 'creates comment' do
+          expect{ subject }.to change{ Comment.count }.by(1)
+        end
+
+        it 'redirects properly' do
+          expect(subject).to redirect_to(comments_path)
+        end
       end
 
-      it 'renders new' do
-        expect(subject).to render_template(:new)
+      context 'invalid params' do
+        let(:params) { { comment: { content: nil, post_id: post_obj.id, user_id: user.id } } }
+
+        it 'doesnt create comment' do
+          expect{ subject }.not_to change{ Comment.count }
+        end
+
+        it 'renders new' do
+          expect(subject).to render_template(:new)
+        end
       end
     end
   end
