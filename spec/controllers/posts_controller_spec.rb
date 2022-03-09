@@ -4,7 +4,8 @@ RSpec.describe PostsController, type: :controller do
   describe 'GET #index' do
     let(:post_1) { create(:post) }
     let(:post_2) { create(:post) }
-    before { allow(Posts::Sort).to receive_message_chain(:new, :call).and_return([post_1, post_2]) }
+    let(:user) { create(:user) }
+    before { allow(Posts::Sort).to receive_message_chain(:new, :call).and_return(Post.where(id: [post_1.id, post_2.id])) }
 
     subject { get :index }
 
@@ -18,27 +19,41 @@ RSpec.describe PostsController, type: :controller do
     let(:user) { create(:user) }
     subject { post :create, params: params }
 
-    context 'valid params' do
-      let(:params) { { post: { title: 'Title', body: 'Body', user_id: user.id } } }
+    context 'when user is not authorized' do
+      context 'valid params' do
+        let(:params) { { post: { title: 'Title', body: 'Body', user_id: user.id } } }
 
-      it 'creates post' do
-        expect{ subject }.to change{ Post.count }.by(1)
-      end
-
-      it 'redirects properly' do
-        expect(subject).to redirect_to(posts_path)
+        it 'creates post' do
+          expect{ subject }.to change{ Post.count }.by(0)
+        end
       end
     end
 
-    context 'invalid params' do
-      let(:params) { { post: { title: nil, body: 'Body', user_id: user.id } } }
+    context 'when user is authorized' do
+      before { sign_in user }
 
-      it 'doesnt create post' do
-        expect{ subject }.not_to change{ Post.count }
+      context 'valid params' do
+        let(:params) { { post: { title: 'Title', body: 'Body', user_id: user.id } } }
+
+        it 'creates post' do
+          expect{ subject }.to change{ Post.count }.by(1)
+        end
+
+        it 'redirects properly' do
+          expect(subject).to redirect_to(posts_path)
+        end
       end
 
-      it 'renders new' do
-        expect(subject).to render_template(:new)
+      context 'invalid params' do
+        let(:params) { { post: { title: nil, body: 'Body', user_id: user.id } } }
+
+        it 'doesnt create post' do
+          expect{ subject }.not_to change{ Post.count }
+        end
+
+        it 'renders new' do
+          expect(subject).to render_template(:new)
+        end
       end
     end
   end
